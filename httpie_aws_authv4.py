@@ -41,6 +41,7 @@ class AWSAuth(object):
                 r.headers['Host'] = host
             if self.domain is not None:
                 aws_params = self._parse_url(self.domain)
+                r.headers['Host'] = self.domain
             else:
                 aws_params = self._parse_url(host)
         except ValueError:
@@ -52,7 +53,7 @@ class AWSAuth(object):
 
         aws_request = AWSRequestsAuth(aws_access_key=self.aws_access_key,
                                       aws_secret_access_key=self.aws_secret_access_key,
-                                      aws_host=host,
+                                      aws_host=r.headers['Host'],
                                       aws_region=aws_params['region'],
                                       aws_service=aws_params['service'],
                                       aws_token=self.aws_token)
